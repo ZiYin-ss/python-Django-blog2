@@ -1,0 +1,20 @@
+<div class="container">
+    <nav class="navbar navbar-default" role="navigation">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="http://www.itdiffer.com">
+              <img src="/static/images/1.jpg" style="width:100px;height:30px" >
+            </a>
+        </div>
+        <div>
+            <ul class="nav navbar-nav" role="navigation">
+                <!--url 是表示在此处返回由应用和参数组成的URL
+                'blog:blog_title' 其中blog是应用名称
+                blog_title 是应用中某个URL的名称-->
+                <li><a href="{% url 'blog:blog_title' %}">BLOG</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#" style="margin-right: 10px">LOGIN</a></li>
+            </ul>
+        </div>
+    </nav>
+</div>

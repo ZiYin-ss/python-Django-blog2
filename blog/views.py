@@ -12,5 +12,5 @@ def blog_article(request, article_id):
     # article = BlogArticles.objects.get(id=article_id)   为什么用下面的写法呢 当网页不存在的时候 会显示错误
     # 这个东西是包裹在模型类外面的 当请求对象不存在是 会抛出异常  第一个参数是默许了 第二个参数是查询条件 可以多个
     article = get_object_or_404(BlogArticles, id=article_id)
-    # pub = article.publish   "publish": pub,  不像做复杂的操作了
+    # pub = article.publish   "publish": pub,  不想做复杂的操作了
     return render(request, 'blog/content.html', {"article": article})

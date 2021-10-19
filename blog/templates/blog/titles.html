@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}blog titles{% endblock %}
+
+{% block content %}
+<div class="row text-center vertical-middle-sm">
+    <h1>我的博客</h1>
+</div>
+<div class="row">
+    <div class="col-xs-10 col-md-8">
+        <ul>
+        {% for blog in blogs %}
+            <li><a href="{{blog.id}}">{{ blog.title }}</a>></li>
+        {% endfor %}
+        </ul>
+    </div>
+    <div class="col-xs-6 col-md-4">
+        <h2>我的那位</h2>
+        <p>拨云见日一天，我将携你归来</p>
+        <img width="200px" src="../../static/images/黄文小同学.jpg">
+    </div>
+</div>
+{% endblock %}
+

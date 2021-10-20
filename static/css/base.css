@@ -1,0 +1,9 @@
+ul{
+    list-style: none;
+}
+a{
+    color: black;
+}
+a:hover{
+    color: blue;
+}

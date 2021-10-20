@@ -1,7 +1,7 @@
 <div class="container">
     <nav class="navbar navbar-default" role="navigation">
         <div class="navbar-header">
-            <a class="navbar-brand" href="/account/" style="width:100px;height:30px;background-color: rebeccapurple;margin-left: 10px;margin-top: 10px">
+            <a class="navbar-brand" href="{% url 'account:user_login' %}" style="width:100px;height:30px;background-color: rebeccapurple;margin-left: 10px;margin-top: 10px">
             </a>
         </div>
         <div>
@@ -12,7 +12,14 @@
                 <li><a href="{% url 'blog:blog_title' %}">BLOG</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right"  style="margin-right: 10px">
+                <!-- 这个地方就是判断登录没登录 我知道很多页面都用到这个了
+                但是有没有发现 就是还有一个else  这个地方判断底层做了处理-->
+                {% if user.is_authenticated %}
+                <li><a href="#">{{user.username}}</a></li>
+                <li><a href="{% url 'account:user_logout' %}">Logout</a></li>
+                {% else %}
                 <li><a href="{% url 'account:user_login' %}">LOGIN</a></li>
+                {% endif %}
             </ul>
         </div>
     </nav>

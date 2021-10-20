@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Login{% endblock %}
+{% block content %}
+<div class="row text-center vertical-middle-sm">
+    <h1>Django内置方法实现登录</h1>
+
+   {% if form.errors %}
+    <!-- 这个是出错的处理 因为当出错之后 会还是会返回到这个页面 显示这个 因为这个不是我们自己写的吗 别人内部处理的  -->
+      <p>你输入的用户名和密码有误，请再试一次</p >
+   {% endif %}
+
+   <p>请输入用户名和密码</p >
+    <form class="form-horizontal" action="{% url 'account:user_login' %}" method="post">{% csrf_token %}
+
+      <div class="form-group">
+          <label for="{{ form.username.id_for_label }}" class="col-md-5 control-label" style="color:red">
+             Username
+          </label>
+          <div class="col-md-6 text-left">{{ form.username }}</div>
+      </div>
+      <div class="form-group">
+          <label for="{{ form.password.id_for_label }}" class="col-md-5 control-label" style="color:blue">
+             Password
+          </label>
+          <div class="col-md-6 text-left">{{ form.password }}</div>
+      </div>
+      <input type="submit" class="btn btn-primary btn-lg" value="Login">
+    </form>
+</div>
+{% endblock %}

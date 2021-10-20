@@ -1,0 +1,26 @@
+{%extends "base.html"%}
+{% block title %}Login{% endblock %}
+{% block content %}
+<div class="row text-center vertical-middle-sm">
+    <h1>登录页面</h1>
+    <p>请输入你的用户名和密码</p >
+    <form class="form-horizontal" action="." method="post">{% csrf_token %}
+        <!-- {{form.as_p}} 这个form是视图给他的 他自己身上的属性as_p显示html页面 还有属性用的时候再说把-->
+        <!--  但无法定制化      -->
+        <!-- 这个是定制化的 就是说for绑定表单元素 下面的form.username 就是单独实现了<input>元素        -->
+        <div class="form-group">
+          <label for="{{ form.username.id_for_label }}" class="col-md-5 control-label" style="color:red">
+              用户名
+          </label>
+          <div class="col-md-6 text-left">{{ form.username }}</div>
+      </div>
+        <div class="form-group">
+          <label for="{{ form.password.id_for_label }}" class="col-md-5 control-label" style="color:blue">
+              密码
+          </label>
+          <div class="col-md-6 text-left">{{ form.password }}</div>
+      </div>
+        <input type="submit" class="btn btn-primary btn-lg" value="Login">
+    </form>
+</div>
+{% endblock %}

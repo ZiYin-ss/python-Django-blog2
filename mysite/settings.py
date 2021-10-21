@@ -131,3 +131,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # 这个地方是用了 DJANGO的内置登录方法  就是用了之后登录成功会跑到/account/profile/ 我们需要改到自己的路径这
 #  这个地方这样写 是登录成功之后    会跳转到这个路径 根路径下面走 直接在域名后面加上这个路径就是
 LOGIN_REDIRECT_URL = '/blog/'
+
+#  因为Django内置修改密码 必须得先登录 这个地方 就是 当你直接访问修改密码界面得时候要是没有登录自己就会跳转到登录页面
+#  这个地方得作用是指定跳转到登录页面得地址
+LOGIN_URL = '/account/login/'

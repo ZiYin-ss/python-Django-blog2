@@ -10,8 +10,13 @@
    {% endif %}
 
    <p>请输入用户名和密码</p >
-    <form class="form-horizontal" action="{% url 'account:user_login' %}" method="post">{% csrf_token %}
-
+    {% if next %}
+    <!-- 为什么这个地方都提交到本地呢 因为 在setting中登录成功会自己返回到blog页面 如果未登录访问修改密码 让你登录是跳转是因为next得作用-->
+    <form class="form-horizontal" action="{% url 'account:user_login' %}?next={{next}}" method="post">
+    {% else %}
+    <form class="form-horizontal" action="{% url 'account:user_login' %}" method="post">
+    {% endif %}
+      {% csrf_token %}
       <div class="form-group">
           <label for="{{ form.username.id_for_label }}" class="col-md-5 control-label" style="color:red">
              Username

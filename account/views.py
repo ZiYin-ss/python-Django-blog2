@@ -43,7 +43,6 @@ def register(request):
             return HttpResponse("成功")
         else:
             return HttpResponse("对不起注册失败 不能注册")
-
     else:
         user_form = RegistrationForm()
         userprofile_form = UserProfileForm()

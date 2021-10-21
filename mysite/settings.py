@@ -135,3 +135,17 @@ LOGIN_REDIRECT_URL = '/blog/'
 #  因为Django内置修改密码 必须得先登录 这个地方 就是 当你直接访问修改密码界面得时候要是没有登录自己就会跳转到登录页面
 #  这个地方得作用是指定跳转到登录页面得地址
 LOGIN_URL = '/account/login/'
+
+#  设置邮箱
+
+# 邮箱
+EMAIL_HOST = "smtp.qq.com"  # SMTP服务器主机，这个不用改
+EMAIL_PORT = 25  # 端口，千万要写587端口，否则容易出错
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST_USER = "980689346@qq.com"  # 邮箱地址
+EMAIL_HOST_PASSWORD = "qubvjbulwzlubech"  # 授权码
+EMAIL_USE_TLS = True
+EMAIL_FROM = "980689346@qq.com"
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+#  把邮箱发送到控制台上面 可以用的
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

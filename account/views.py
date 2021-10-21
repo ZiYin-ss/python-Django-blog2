@@ -104,7 +104,19 @@ def myself_edit(request):
                                               "profession": userinfo.profession,
                                               "address": userinfo.address,
                                               "aboutme": userinfo.aboutme})
-        return render(request,"account/myself_edit.html",
-                      {"user_form":user_form,
-                       "userprofile_form":userprofile_form,
-                       "userinfo_form":userinfo_form})
+        return render(request, "account/myself_edit.html",
+                      {"user_form": user_form,
+                       "userprofile_form": userprofile_form,
+                       "userinfo_form": userinfo_form})
+
+
+@login_required(login_url='/account/login')
+def my_image(request):
+    if request.method == 'POST':
+        img = request.POST['img']
+        userinfo = UserInfo.objects.get(user=request.user.id)  # 先把原来的数据取出来 然后 多添加一个字段
+        userinfo.photo = img
+        userinfo.save()  # 再保存
+        return HttpResponse("1")
+    else:
+        return render(request, 'account/imagecrop.html', )

@@ -22,7 +22,7 @@ urlpatterns = [
              email_template_name="account/password_reset_email.html",
              success_url='/account/password-reset-done/'),  # 成功 页面跳转目标
          name='password_reset'),
-    path('password-reset-done/',   # 这个地方就是邮件发送之后显示的页面
+    path('password-reset-done/',  # 这个地方就是邮件发送之后显示的页面
          auth_views.PasswordResetDoneView.as_view(
              template_name="account/password_reset_done.html"),
          name='password_reset_done'),
@@ -36,6 +36,7 @@ urlpatterns = [
              template_name="account/password_reset_complete.html"),
          name="password_reset_complete"
          ),
-    path('my-information/',views.myself,name="my_information"),
-    path('edit-my-information/',views.myself_edit,name="edit_my_information")
+    path('my-information/', views.myself, name="my_information"),
+    path('edit-my-information/', views.myself_edit, name="edit_my_information"),
+    path('my-image/', views.my_image, name="my_image")
 ]

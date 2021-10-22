@@ -9,7 +9,7 @@ from .forms import ArticleColumnForm
 
 
 @login_required(login_url='/account/login/')
-@csrf_exempt
+@csrf_exempt   # 创建并显示文章栏目
 def article_column(request):
     if request.method == "GET":
         columns = ArticleColumn.objects.filter(user=request.user)
@@ -26,8 +26,8 @@ def article_column(request):
             return HttpResponse("1")
 
 @login_required(login_url='/account/login/')
-@require_POST
-@csrf_exempt
+@require_POST     # 只接收post请求
+@csrf_exempt      # 取消跨域  修改文章栏目
 def rename_article_column(request):
     column_name = request.POST['column_name']
     column_id = request.POST['column_id']
@@ -43,7 +43,7 @@ def rename_article_column(request):
 
 @login_required(login_url='/account/login')
 @require_POST
-@csrf_exempt
+@csrf_exempt  # 删除文章栏目
 def del_article_column(request):
     column_id = request.POST["column_id"]
     try:

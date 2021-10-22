@@ -49,13 +49,12 @@
           {% else %}
           <img name="user_face" src="/static/images/photo.png"  style="width: 100px" class="img-circle" id="my_photo">
           {% endif %}
-
         </div>
         <div style="margin-right: 100px;margin-top: 10px">
-            <a href="{%url 'account:my_image' %}">
-            <button class="btn-primary btn btn-lg" id="upload_images" onclick="uploda_ing_layer()">
-                upload my photo
-            </button>
+            <a href="{%url 'account:my_image'%}">
+                <button class="btn-primary btn btn-lg" id="upload_images" onclick="uploda_ing_layer()">
+                    upload my photo
+                </button>
             </a>
         </div>
       </div>
@@ -64,4 +63,17 @@
         <button class="btn btn-primary">编辑个人信息</button>
     </a>
 </div>
+
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/layer/3.5.1/layer.js"></script>
+<script>
+    function uploda_ing_layer(){
+        layer.open({
+            title:"上传头像",
+            area:['650px','600px'],
+            type:2,
+            content:"{%url 'account:my_image' %}"
+        })
+    }
+</script>
 {% endblock %}

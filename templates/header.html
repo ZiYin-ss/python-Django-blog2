@@ -9,7 +9,7 @@
                 <!--url 是表示在此处返回由应用和参数组成的URL
                 'blog:blog_title' 其中blog是应用名称
                 blog_title 是应用中某个URL的名称-->
-                <li><a href="{% url 'blog:blog_title' %}">BLOG</a></li>
+                <li><a href="{% url 'blog:blog_title' %}">我的博客</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right"  style="margin-right: 10px">
                 <!-- 这个地方就是判断登录没登录 我知道很多页面都用到这个了
@@ -25,6 +25,7 @@
                             <li><a href="{% url 'account:my_information' %}">查看个人信息</a></li>
                             <li><a href="{% url 'account:edit_my_information' %}">修改个人信息</a></li>
                             <li><a href="{% url 'account:password_reset' %}">重置密码</a></li>
+                            <li><a href="{% url 'article:article_column' %}">后台管理</a></li>
                         </ul>
                     </div>
                 </li>

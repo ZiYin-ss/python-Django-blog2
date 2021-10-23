@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
-
+from django.shortcuts import get_object_or_404
 from .models import ArticleColumn, ArticlePost
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
 from django.http import HttpResponse
@@ -83,3 +83,10 @@ def article_post(request):
 def article_list(request):
     articles = ArticlePost.objects.filter(author=request.user)
     return render(request, "article/column/article_list.html", {"articles": articles})
+
+
+@login_required(login_url='/account/login')
+def article_detail(request, id, slug):
+    # 这个函数的作用是第一个是模型类 第二个是查询参数 是不是就可以查询数据了 有就返回 没有就返回404 就这
+    article = get_object_or_404(ArticlePost, id=id, slug=slug)
+    return render(request, "article/column/article_detail.html", {"article": article})

@@ -37,4 +37,7 @@ class ArticlePost(models.Model):
         super(ArticlePost, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
+        # 第二个参数就是 原本的url后面跟上文章的id和标题 /article/article-detail/1/Ni-Men-Huan-Hao-Ma/
+        #  url.py去匹配
+        #  这个reverse 就是把第一个参数 就是命名空间 第一个参数就相当于返回/article/article-detail/ href直接拿到跳转
         return reverse("article:article_detail", args=[self.id, self.slug])

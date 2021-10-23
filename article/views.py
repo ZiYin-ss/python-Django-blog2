@@ -2,14 +2,14 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 
-from .models import ArticleColumn
+from .models import ArticleColumn, ArticlePost
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
 from django.http import HttpResponse
-from .forms import ArticleColumnForm
+from .forms import ArticleColumnForm, ArticlePostForm
 
 
 @login_required(login_url='/account/login/')
-@csrf_exempt   # 创建并显示文章栏目
+@csrf_exempt  # 创建并显示文章栏目
 def article_column(request):
     if request.method == "GET":
         columns = ArticleColumn.objects.filter(user=request.user)
@@ -25,9 +25,10 @@ def article_column(request):
             ArticleColumn.objects.create(user=request.user, column=column_name)
             return HttpResponse("1")
 
+
 @login_required(login_url='/account/login/')
-@require_POST     # 只接收post请求
-@csrf_exempt      # 取消跨域  修改文章栏目
+@require_POST  # 只接收post请求
+@csrf_exempt  # 取消跨域  修改文章栏目
 def rename_article_column(request):
     column_name = request.POST['column_name']
     column_id = request.POST['column_id']
@@ -51,4 +52,28 @@ def del_article_column(request):
         line.delete()
         return HttpResponse("1")
     except:
-       return HttpResponse("2")
+        return HttpResponse("2")
+
+
+@login_required(login_url='/account/login')
+@csrf_exempt  # 文章发布
+def article_post(request):
+    if request.method == "POST":
+        article_post_form = ArticlePostForm(data=request.POST)
+        if article_post_form.is_valid():
+            cd = article_post_form.cleaned_data
+            try:
+                new_article = article_post_form.save(commit=False)
+                new_article.author = request.user
+                new_article.column = request.user.article_column.get(id=request.POST['column_id'])
+                new_article.save()
+                return HttpResponse("1")
+            except:
+                return HttpResponse("2")
+        else:
+            return HttpResponse("3")
+    else:
+        article_post_form = ArticlePostForm()
+        article_columns = request.user.article_column.all()  # 这个地方是把所有的 有关这个作者的栏目都给他了
+        return render(request, "article/column/article_post.html", {"article_post_form": article_post_form,
+                                                                    "article_columns": article_columns})

@@ -1,11 +1,12 @@
-from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
-from django.views.decorators.http import require_POST
-from django.shortcuts import get_object_or_404
-from .models import ArticleColumn, ArticlePost
-from django.views.decorators.csrf import csrf_exempt, csrf_protect
 from django.http import HttpResponse
+from django.shortcuts import get_object_or_404
+from django.shortcuts import render
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .forms import ArticleColumnForm, ArticlePostForm
+from .models import ArticleColumn, ArticlePost
 
 
 @login_required(login_url='/account/login/')
@@ -81,8 +82,22 @@ def article_post(request):
 
 @login_required(login_url='/account/login')
 def article_list(request):
-    articles = ArticlePost.objects.filter(author=request.user)
-    return render(request, "article/column/article_list.html", {"articles": articles})
+    articles_list = ArticlePost.objects.filter(author=request.user)
+    #  先把所有的数据都拿出来 创建分页对象 一页两条数据
+    #  这个地方你就想 底层创建好了 假如一共20条数据 一页两条 会创建这样一个东西
+    #  下面你取4 就是取出第四页的数据 object_list 就是取出哪页的数据 给前端
+    paginator = Paginator(articles_list, 2)
+    page = request.GET.get('page')  # 接收传递过来的页面
+    try:
+        current_page = paginator.page(page)  # 获取当前页面
+        articles = current_page.object_list  # 拿出当前页面的数据
+    except PageNotAnInteger:
+        current_page = paginator.page(1)
+        articles = current_page.object_list
+    except EmptyPage:
+        current_page = paginator.page(paginator.num_pages)
+        articles = current_page.object_list
+    return render(request, "article/column/article_list.html", {"articles": articles, "page": current_page})
 
 
 @login_required(login_url='/account/login')
@@ -128,3 +143,8 @@ def redit_article(request, article_id):
             return HttpResponse("1")
         except:
             return HttpResponse("2")
+
+
+
+
+

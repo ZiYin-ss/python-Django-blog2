@@ -4,6 +4,7 @@ from django.contrib.auth import authenticate, login
 from .forms import *
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.urls import reverse
 
 
 #  自己写的用户登录的判断  原生的 但我们用的是Django内置的
@@ -42,7 +43,7 @@ def register(request):
             new_profile.user = new_user
             # 因为上面只插入这个表是不是只插入这俩个字段  所以说 要把这次插入得对应user表得那个对象给他 会自己取出来id得 记住就好了
             new_profile.save()
-            return HttpResponse("成功")
+            return HttpResponseRedirect(reverse("account:user_login"))
         else:
             return HttpResponse("对不起注册失败 不能注册")
     else:

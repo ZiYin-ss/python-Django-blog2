@@ -1,5 +1,9 @@
 {% extends "article/base.html" %}
 {% block title %}article column{% endblock %}
+{% block css %}
+<link rel="stylesheet" href="/static/editor/css/style.css">
+<link rel="stylesheet" href="/static/editor/css/editormd.css">
+{% endblock %}
 {% block content %}
 <div style="margin-left:10px">
     <form class="form-horizontal" action="." method="post">{% csrf_token %}
@@ -19,7 +23,9 @@
         </div>
         <div class="row" style="margin-top: 10px; ">
         <div class="col-md-2 text-right"><span>内容：</span></div>
-        <div class="col-md-10 text-left">{{article_post_form.body}}</div>
+        <div id="editormd" class="col-md-10 text-left">
+            <textarea style="display:none; " id="id_body"></textarea>
+        </div>
         </div>
         <div class="row">
           <input type="button" class="btn btn-primary btn-lg" value="发布"
@@ -29,11 +35,12 @@
 </div>
 <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.js"></script>
 <script src="https://cdn.bootcdn.net/ajax/libs/layer/3.5.1/layer.js"></script>
+<script type="text/javascript" src='/static/editor/editormd.min.js'></script>
 <script type="text/javascript">
     function publish_article(){
         var title = $("#id_title").val();
         var column_id = $("#which_column").val();
-        var body = $("#id_body").val();
+        var body = $("#id_body").val();  //因为用的是md语法 这个id所对于的元素就是md的文本框 .val就是输入的值啊
         $.ajax({
         url: "{% url 'article:article_post' %}",
         type: "POST",
@@ -49,5 +56,13 @@
         },
         });
     }
+    $(function() {
+          var editor = editormd("editormd", {
+              width  : "90%",
+              height : 600,
+              syncScrolling : "single",
+              path: "/static/editor/lib/"
+          });
+        });
 </script>
 {% endblock %}

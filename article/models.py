@@ -17,6 +17,7 @@ class ArticleColumn(models.Model):
 class ArticlePost(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="article")
     title = models.CharField(max_length=200)
+    # 如果文章是英文 然后url其他任何地方都不用变 传slug得时候 直接article.slug就传过去了 中文要管
     slug = models.SlugField(max_length=500)
     column = models.ForeignKey(ArticleColumn, on_delete=models.CASCADE, related_name="article_column")
     body = models.TextField()

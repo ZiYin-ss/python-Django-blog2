@@ -90,3 +90,41 @@ def article_detail(request, id, slug):
     # 这个函数的作用是第一个是模型类 第二个是查询参数 是不是就可以查询数据了 有就返回 没有就返回404 就这
     article = get_object_or_404(ArticlePost, id=id, slug=slug)
     return render(request, "article/column/article_detail.html", {"article": article})
+
+
+@login_required(login_url='/account/login')
+@require_POST
+@csrf_exempt
+def del_article(request):
+    article_id = request.POST['article_id']
+    try:
+        article = ArticlePost.objects.get(id=article_id)
+        article.delete()
+        return HttpResponse("1")
+    except:
+        return HttpResponse("2")
+
+
+@login_required(login_url='/account/login')
+@csrf_exempt
+def redit_article(request, article_id):
+    if request.method == "GET":
+        # 这个get请求做的事情就是 先把原来的数据给这个页面了 并且显示处理
+        article_columns = request.user.article_column.all()
+        article = ArticlePost.objects.get(id=article_id)
+        #  为什么body不这样写 因为markdown语法 写body才可以
+        this_article_form = ArticlePostForm(initial={"title": article.title})
+        return render(request, "article/column/redit_article.html",
+                      {"article": article,
+                       "article_columns": article_columns,
+                       "this_article_form": this_article_form})
+    else:
+        redit_article = ArticlePost.objects.get(id=article_id)
+        try:
+            redit_article.column = request.user.article_column.get(id=request.POST['column_id'])
+            redit_article.title = request.POST['title']
+            redit_article.body = request.POST['body']
+            redit_article.save()
+            return HttpResponse("1")
+        except:
+            return HttpResponse("2")

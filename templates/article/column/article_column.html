@@ -11,14 +11,13 @@
     </tr>
     {% for column in columns %}
     <tr>
-
         <td>{{ forloop.counter }}</td>
         <td>{{ column.column }}</td>
         <td><!--这个地方的column.id 是数据库对应的id 因为后端是不是取出来当前登录用户的所有这个栏目的数据了啊 传递过来了 不就有id了吗 -->
-            <a name="edit" href="#" onclick="edit_column(this,{{ column.id }})">
+            <a name="edit" href="javascript:;" onclick="edit_column(this,{{ column.id }})">
                 <span class="glyphicon glyphicon-pencil"></span>
             </a>
-            <a name="delete" href="javascript:" onclick="del_column(this, {{ column.id }})">
+            <a name="delete" href="javascript:;" onclick="del_column(this, {{ column.id }})">
             <span class="glyphicon glyphicon-trash" style="margin-left:20px; "></span>
             </a>
         </td>

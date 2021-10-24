@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'blog',
     'account',
     'article',
-    'redirect'
+    'redirect',
+    'image'
 ]
 
 MIDDLEWARE = [
@@ -156,4 +157,8 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 REDIS_HOST = 'localhost'
 REDIS_PORT = '6379'
 REDIS_DB = '1'
+
+#  读取图片的配置 这个地方设置了的话 在模型类的 upload那 就会在这个目录下创建新的保存目录
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR,'media/')
 

@@ -23,6 +23,7 @@ class ArticlePost(models.Model):
     body = models.TextField()
     created = models.DateTimeField(default=timezone.now)
     updated = models.DateTimeField(auto_now=True)
+    users_like = models.ManyToManyField(User,related_name="articles_like",blank=True)
 
     class Meta:
         ordering = ("-updated",)
@@ -42,3 +43,6 @@ class ArticlePost(models.Model):
         #  url.py去匹配
         #  这个reverse 就是把第一个参数 就是命名空间 第一个参数就相当于返回/article/article-detail/ href直接拿到跳转
         return reverse("article:article_detail", args=[self.id, self.slug])
+
+    def get_url_path(self):
+        return reverse("article:article_content", args=[self.id, self.slug])

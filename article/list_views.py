@@ -6,11 +6,31 @@ from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
+import redis
+from django.conf import settings
+
+r = redis.StrictRedis(host=settings.REDIS_HOST, port=settings.REDIS_PORT, db=settings.REDIS_DB)
 
 
 def article_detail(request, id, slug):
     article = get_object_or_404(ArticlePost, id=id, slug=slug)
-    return render(request, "article/list/article_content.html", {"article": article})
+    #  这个地方就是说 以article:{}:views作为key 其实意思就是访问一次这个页面 就会执行一下这个函数 就是把这个key+1
+    #  不同的文章的key不一样
+    #  这样的话不就可以统计访问次数了吗
+    total_views = r.incr("article:{}:views".format(article.id))
+    r.zincrby('article_ranking', 1, article.id)  # 这个地方不知道是什么意思 真的不知道
+    article_ranking = r.zrange('article_ranking', 0, -1, desc=True)[:10]
+    article_ranking_ids = [int(id) for id in article_ranking]
+    # article_ranking_ids 这个列表里面是id 文章的id
+    most_viewed = list(ArticlePost.objects.filter(id__in=article_ranking_ids))
+    #  这个地方就是文章表里面的id在article_ranking_ids这个里面的位置 依据这个排序 假如1和2 key=1key=2 就排序出来就是1，2
+    #  这个地方多理解 用的少肯定知道的少
+    most_viewed.sort(key=lambda x: article_ranking_ids.index(x.id))
+    return render(request, "article/list/article_content.html",
+                  {"article": article,
+                   "total_views": total_views,
+                   "most_viewed": most_viewed})
+
 
 def article_titles(request, username=None):
     if username:
@@ -42,7 +62,6 @@ def article_titles(request, username=None):
                   {"articles": articles, "page": current_page})
 
 
-
 @csrf_exempt
 @require_POST
 @login_required(login_url='/account/login/')
@@ -52,7 +71,7 @@ def like_article(request):
     if article_id and action:
         try:
             article = ArticlePost.objects.get(id=article_id)
-            if action=="like":
+            if action == "like":
                 article.users_like.add(request.user)
                 return HttpResponse("1")
             else:

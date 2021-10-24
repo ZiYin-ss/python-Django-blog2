@@ -150,3 +150,10 @@ EMAIL_FROM = "980689346@qq.com"
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 #  把邮箱发送到控制台上面 可以用的
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+
+#  redis数据库配置
+REDIS_HOST = 'localhost'
+REDIS_PORT = '6379'
+REDIS_DB = '1'
+

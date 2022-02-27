@@ -9,6 +9,7 @@ class BlogArticlesAdmin(admin.ModelAdmin):
     search_fields = ("title", "body")
     raw_id_fields = ("author",)
     date_hierarchy = "publish"
-    ordering = ["-publish",'author']
+    ordering = ["-publish", 'author']
 
-admin.site.register(BlogArticles,BlogArticlesAdmin)  # 注册到admin中 此时就可以通过admin对模型类增删查改
+
+admin.site.register(BlogArticles, BlogArticlesAdmin)  # 注册到admin中 此时就可以通过admin对模型类增删查改
